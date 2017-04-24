@@ -1,0 +1,33 @@
+Generate certificates for kubernetes:
+
+Resolution:
+
+1. Generate RSA key
+
+[root@kamb1021 Builds]# openssl genrsa -out /etc/kubernetes/serviceaccount.key 2048
+
+Generating RSA private key, 2048 bit long modulus
+
+..........+++
+
+.............+++
+
+e is 65537 (0x10001)
+
+2. Add the new key in /etc/kubernetes/apiserver
+
+[root@kamb1021 Builds]# vim /etc/kubernetes/apiserver
+
+KUBE_API_ARGS="--service_account_key_file=/etc/kubernetes/serviceaccount.key"
+
+3. Add the new key in /etc/kubernetes/controller-manager
+
+[root@kamb1021 Builds]# vim /etc/kubernetes/controller-manager
+
+KUBE_CONTROLLER_MANAGER_ARGS="--service_account_private_key_file=/etc/kubernetes/serviceaccount.key"
+
+4. Restart services
+
+systemctl restart etcd kube-apiserver kube-controller-manager kube-scheduler
+
+systemctl status etcd kube-apiserver kube-controller-manager kube-scheduler
