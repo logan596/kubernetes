@@ -48,6 +48,4 @@ kubectl  get replicationcontrollers
 
 kubectl delete  replicationcontrollers nginx-www
 
-kubectl describe service nginx-service
-
 
